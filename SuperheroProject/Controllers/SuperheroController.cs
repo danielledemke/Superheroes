@@ -53,17 +53,18 @@ namespace SuperheroProject.Controllers
         // GET: Superhero/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var superhero = context.Superheroes.Single(s => s.Id == id);
+            return View(superhero);
         }
 
         // POST: Superhero/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit([Bind(Include = "Id,Name,Alterego,Ability,SecondaryAbility,Catchphrase")] Superhero superhero)
         {
             try
             {
-                // TODO: Add update logic here
-
+                context.Superheroes.Add(superhero);
+                context.SaveChanges();
                 return RedirectToAction("Index");
             }
             catch
@@ -75,16 +76,18 @@ namespace SuperheroProject.Controllers
         // GET: Superhero/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            var superhero = context.Superheroes.Where(s => s.Id == id);
+            return View(superhero);
         }
 
         // POST: Superhero/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, Superhero superhero)
         {
             try
             {
-                // TODO: Add delete logic here
+                context.Superheroes.Remove(superhero);
+                context.SaveChanges();
 
                 return RedirectToAction("Index");
             }
